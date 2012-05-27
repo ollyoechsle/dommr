@@ -70,7 +70,14 @@
     * @return {Boolean} Whether the extension is no longer on the active list
     */
    ExtensionManager.prototype.finish_active = function(request_id, extension) {
-      var index = this.active[request_id].indexOf(extension);
+      var active_list = this.active[request_id], index;
+
+      if (!active_list) {
+         console.warn("No active list found for request: " + request_id + " Has the request already completed?");
+         return true;
+      }
+
+      index = this.active[request_id].indexOf(extension);
       if (index >= 0) {
          this.active[request_id].splice(index, 1);
       }
